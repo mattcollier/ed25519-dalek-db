@@ -5,7 +5,7 @@
 cargo install nj-cli
 ```
 
-### Build with AVX/SIMD optimizations
+### Build with AVX/SIMD optimizations (default)
 ```
-RUSTFLAGS="-C target_cpu=native" nj-cli build --release
+nj-cli build --release
 ```
