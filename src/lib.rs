@@ -1,7 +1,8 @@
 use ed25519_dalek::{Keypair, PublicKey, Signer, Verifier, Signature};
-use base58::{FromBase58, ToBase58};
+use base58::{FromBase58};
 use node_bindgen::derive::node_bindgen;
 use node_bindgen::core::buffer::ArrayBuffer;
+use std::convert::TryInto;
 // use node_bindgen::core::{NjError};
 // use node_bindgen::core::val::JsObject;
 // use base64;
@@ -51,21 +52,24 @@ pub fn sign4(private_key_bytes: String, message: String) -> String {
     base64::encode(keypair.sign(message_bytes).to_bytes())
 }
 
-// pub fn sign_x(private_key_bytes: &[u8], message: &[u8], ) -> [u8; 64] {
-//   let keypair: Keypair = Keypair::from_bytes(private_key_bytes).unwrap();
-//   keypair.sign(message).to_bytes()
-// }
-// pub fn verify(public_key_bytes: &[u8], message: &[u8], ) -> bool {
-//   let s: [u8; 64] = signature_bytes.try_into().unwrap();
+// public_key_bytes will be Uint8Array when node-bindgen can accept multiple
+// buffer args. See: https://github.com/infinyon/node-bindgen/issues/109
+#[node_bindgen]
+pub fn verify(public_key_bytes: String, signature_bytes: String, message: &[u8]) -> bool {
+    let s: Vec<u8> = base64::decode(signature_bytes).unwrap();
+    let signature_u8: [u8; 64] = s.try_into().unwrap();
 
-//   // let t = format!("{:?}", s);
-//   // console::log_2(&"SIGNATURE".into(), &t.into());
-//   let signature = ed25519_dalek::Signature::new(s);
-//   // let u = format!("{:?}", signature.to_bytes());
-//   // console::log_2(&"SIGNATURE_to_bytes".into(), &u.into());
-//   let verify_key = PublicKey::from_bytes(public_key_bytes).unwrap();
+    let key_bytes = public_key_bytes.from_base58().unwrap();
+    let key_u8: &[u8] = &key_bytes;
 
-// }
+    // let t = format!("{:?}", s);
+    // console::log_2(&"SIGNATURE".into(), &t.into());
+    let signature = Signature::new(signature_u8);
+    // let u = format!("{:?}", signature.to_bytes());
+    // console::log_2(&"SIGNATURE_to_bytes".into(), &u.into());
+    let verify_key = PublicKey::from_bytes(key_u8).unwrap();
+    verify_key.verify(message, &signature).is_ok()
+}
 
 // #[test]
 // fn foo() {
