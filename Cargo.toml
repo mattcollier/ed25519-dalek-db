@@ -10,12 +10,19 @@ crate-type = ["cdylib"]
 
 [dependencies]
 base58 = "0.1.0"
+base64 = "0.13.0"
 ed25519 = "1.0.3"
-ed25519-dalek = "1"
+
+[dependencies.ed25519-dalek]
+git = "https://github.com/mattcollier/ed25519-dalek"
+branch = "develop-simd"
+features = ["simd_backend"]
 
 [dependencies.node-bindgen]
-version = "4"
+git = "https://github.com/mattcollier/node-bindgen"
+branch = "buffer-info"
 features = []
 [build_dependencies.node-bindgen]
-version = "4"
+git = "https://github.com/mattcollier/node-bindgen"
+branch = "buffer-info"
 features = ["build"]
