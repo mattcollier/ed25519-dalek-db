@@ -19,10 +19,10 @@ branch = "develop-simd"
 features = ["simd_backend"]
 
 [dependencies.node-bindgen]
-git = "https://github.com/mattcollier/node-bindgen"
-branch = "buffer-info"
+git = "https://github.com/infinyon/node-bindgen"
+branch = "master"
 features = []
 [build_dependencies.node-bindgen]
-git = "https://github.com/mattcollier/node-bindgen"
-branch = "buffer-info"
+git = "https://github.com/infinyon/node-bindgen"
+branch = "master"
 features = ["build"]
