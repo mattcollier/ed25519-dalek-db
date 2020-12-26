@@ -153,12 +153,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
 
 [[package]]
-name = "base58"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5024ee8015f02155eee35c711107ddd9a9bf3cb689cf2a9089c97e79b6e1ae83"
-
-[[package]]
 name = "base64"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -303,11 +297,11 @@ dependencies = [
 [[package]]
 name = "curve25519-dalek"
 version = "3.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c8492de420e9e60bc9a1d66e2dbb91825390b738a388606600663fc529b4b307"
+source = "git+https://github.com/dalek-cryptography/curve25519-dalek?branch=develop#a787300ba169ae035bcdf2d540cf2b61b950405c"
 dependencies = [
  "byteorder",
  "digest",
+ "packed_simd_2",
  "rand_core",
  "subtle",
  "zeroize",
@@ -334,13 +328,13 @@ dependencies = [
 [[package]]
 name = "ed25519-dalek"
 version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c762bae6dcaf24c4c84667b8579785430908723d5c889f469d76a41d59cc7a9d"
+source = "git+https://github.com/mattcollier/ed25519-dalek?branch=develop-simd#a1706aa0e530235443d6eb6512ca8815c2ef50f9"
 dependencies = [
  "curve25519-dalek",
  "ed25519",
  "rand",
  "serde",
+ "serde_bytes",
  "sha2",
  "zeroize",
 ]
@@ -349,7 +343,6 @@ dependencies = [
 name = "ed25519-dalek-db"
 version = "0.1.0"
 dependencies = [
- "base58",
  "ed25519",
  "ed25519-dalek",
  "node-bindgen",
@@ -785,6 +778,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1482821306169ec4d07f6aca392a4681f66c75c9918aa49641a2595db64053cb"
 
 [[package]]
+name = "libm"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7fc7aa29613bd6a620df431842069224d8bc9011086b1db4c0e0cd47fa03ec9a"
+
+[[package]]
 name = "log"
 version = "0.4.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -916,8 +915,7 @@ dependencies = [
 [[package]]
 name = "nj-build"
 version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b0fbbb192ddee4ec2b2c77c1b7a053dbfd877746f88dd1c2883ccc2db13b30a"
+source = "git+https://github.com/infinyon/node-bindgen?branch=master#f1cc913714dc9965bcc9f952f5fb56b6af05e507"
 dependencies = [
  "cc",
  "reqwest",
@@ -925,9 +923,8 @@ dependencies = [
 
 [[package]]
 name = "nj-core"
-version = "4.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5e65d2daecb585f5888cff21b3f8dbef823e5809cbdeea76d507660377850ab"
+version = "4.1.1"
+source = "git+https://github.com/infinyon/node-bindgen?branch=master#f1cc913714dc9965bcc9f952f5fb56b6af05e507"
 dependencies = [
  "async-trait",
  "ctor",
@@ -943,9 +940,8 @@ dependencies = [
 
 [[package]]
 name = "nj-derive"
-version = "2.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b087de4c9209a8a6f00e51354df424e6ca10871940e7a38f305f01a2e10aa600"
+version = "3.0.0"
+source = "git+https://github.com/infinyon/node-bindgen?branch=master#f1cc913714dc9965bcc9f952f5fb56b6af05e507"
 dependencies = [
  "Inflector",
  "proc-macro2",
@@ -956,14 +952,12 @@ dependencies = [
 [[package]]
 name = "nj-sys"
 version = "3.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8de78f0e9f8a2a4f224273e282f9b61bfe8d598b22fe9d00a57b09e1f6b1cd51"
+source = "git+https://github.com/infinyon/node-bindgen?branch=master#f1cc913714dc9965bcc9f952f5fb56b6af05e507"
 
 [[package]]
 name = "node-bindgen"
-version = "4.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a06858504ad7d2dd74fc7407b972261e74dedd5ebba82921bfb44a261d4d846"
+version = "4.1.0"
+source = "git+https://github.com/infinyon/node-bindgen?branch=master#f1cc913714dc9965bcc9f952f5fb56b6af05e507"
 dependencies = [
  "nj-build",
  "nj-core",
@@ -1025,9 +1019,9 @@ checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
 
 [[package]]
 name = "openssl"
-version = "0.10.31"
+version = "0.10.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d008f51b1acffa0d3450a68606e6a51c123012edaacb0f4e1426bd978869187"
+checksum = "038d43985d1ddca7a9900630d8cd031b56e4794eecc2e9ea39dd17aa04399a70"
 dependencies = [
  "bitflags",
  "cfg-if 1.0.0",
@@ -1045,15 +1039,25 @@ checksum = "77af24da69f9d9341038eba93a073b1fdaaa1b788221b00a69bce9e762cb32de"
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.59"
+version = "0.9.60"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "de52d8eabd217311538a39bba130d7dea1f1e118010fee7a033d966845e7d5fe"
+checksum = "921fc71883267538946025deffb622905ecad223c28efbfdef9bb59a0175f3e6"
 dependencies = [
  "autocfg",
  "cc",
  "libc",
  "pkg-config",
  "vcpkg",
+]
+
+[[package]]
+name = "packed_simd_2"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3278e0492f961fd4ae70909f56b2723a7e8d01a228427294e19cdfdebda89a17"
+dependencies = [
+ "cfg-if 0.1.10",
+ "libm",
 ]
 
 [[package]]
@@ -1367,6 +1371,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde_bytes"
+version = "0.11.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "16ae07dd2f88a366f15bd0632ba725227018c69a1c8550a927324f8eb8368bb9"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "serde_derive"
 version = "1.0.118"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1460,9 +1473,9 @@ checksum = "1e81da0851ada1f3e9d4312c704aa4f8806f0f9d69faaf8df2f3464b4a9437c2"
 
 [[package]]
 name = "syn"
-version = "1.0.55"
+version = "1.0.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a571a711dddd09019ccc628e1b17fe87c59b09d513c06c026877aa708334f37a"
+checksum = "a9802ddde94170d186eeee5005b798d9c159fa970403f1be19976d0cfb939b72"
 dependencies = [
  "proc-macro2",
  "quote",

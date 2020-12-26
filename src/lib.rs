@@ -1,19 +1,19 @@
 use ed25519_dalek::{Keypair, PublicKey, Signer, Verifier, Signature};
 use node_bindgen::derive::node_bindgen;
-use node_bindgen::core::buffer::ArrayBuffer;
+use node_bindgen::core::buffer::{ArrayBuffer, JSArrayBuffer};
 use std::convert::TryInto;
 
 #[node_bindgen]
-pub fn sign(private_key_bytes:  &[u8], message_bytes:  &[u8]) ->  ArrayBuffer {
-    let keypair: Keypair = Keypair::from_bytes(private_key_bytes).unwrap();
-    ArrayBuffer::new(keypair.sign(message_bytes).to_bytes().to_vec())
+pub fn sign(private_key_bytes: JSArrayBuffer, message_bytes: JSArrayBuffer) ->  ArrayBuffer {
+    let keypair: Keypair = Keypair::from_bytes(&private_key_bytes).unwrap();
+    ArrayBuffer::new(keypair.sign(&message_bytes).to_bytes().to_vec())
 }
 
 #[node_bindgen]
-pub fn verify(message: &[u8], public_key_bytes: &[u8], signature_bytes: &[u8], ) -> bool {
-    let signature = Signature::new(signature_bytes.try_into().unwrap());
-    let verify_key = PublicKey::from_bytes(public_key_bytes).unwrap();
-    verify_key.verify(message, &signature).is_ok()
+pub fn verify(message: JSArrayBuffer, public_key_bytes: JSArrayBuffer, signature_bytes: JSArrayBuffer) -> bool {
+    let signature = Signature::new((*signature_bytes).try_into().unwrap());
+    let verify_key = PublicKey::from_bytes(&public_key_bytes).unwrap();
+    verify_key.verify(&message, &signature).is_ok()
 }
 
 // #[test]
